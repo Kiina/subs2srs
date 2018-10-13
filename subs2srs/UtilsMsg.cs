@@ -17,55 +17,45 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace subs2srs
 {
-  /// <summary>
-  /// Contains popup message helper routines.
-  /// </summary>
-  class UtilsMsg
-  {
     /// <summary>
-    /// Show an error messsage.
+    /// Contains popup message helper routines.
     /// </summary>
-    public static void showErrMsg(string msg)
+    class UtilsMsg
     {
-      MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        /// <summary>
+        /// Show an error messsage.
+        /// </summary>
+        public static void showErrMsg(string msg)
+        {
+            MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-      Logger.Instance.error(msg);
+            Logger.Instance.error(msg);
+        }
+
+
+        /// <summary>
+        /// Show an information message.
+        /// </summary>
+        public static void showInfoMsg(string msg)
+        {
+            MessageBox.Show(msg, UtilsAssembly.Title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            Logger.Instance.info(msg);
+        }
+
+        /// <summary>
+        /// Show a Yes/No message.
+        /// </summary>
+        public static bool showConfirm(string msg)
+        {
+            DialogResult result =
+                MessageBox.Show(msg, "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            return result == DialogResult.Yes;
+        }
     }
-
-
-    /// <summary>
-    /// Show an information message.
-    /// </summary>
-    public static void showInfoMsg(string msg)
-    {
-      MessageBox.Show(msg, UtilsAssembly.Title, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-      Logger.Instance.info(msg);
-    }
-
-    /// <summary>
-    /// Show a Yes/No message.
-    /// </summary>
-    public static bool showConfirm(string msg)
-    {
-      DialogResult result = MessageBox.Show(msg, "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-      return (result == DialogResult.Yes);
-    }
-  }
 }

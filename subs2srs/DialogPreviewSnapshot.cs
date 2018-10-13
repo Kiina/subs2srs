@@ -18,64 +18,43 @@
 //////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace subs2srs
 {
-  /// <summary>
-  /// The Preview snapshot dialog.
-  /// </summary>
-  public partial class DialogPreviewSnapshot : Form
-  {
-    private Image snapshot;
-
     /// <summary>
-    /// The snapshot that will be displayed (full-size) within this dialog.
+    /// The Preview snapshot dialog.
     /// </summary>
-    public Image Snapshot 
+    public partial class DialogPreviewSnapshot : Form
     {
-      get 
-      { 
-        return snapshot; 
-      }
-      set 
-      { 
-        snapshot = value;
+        private Image snapshot;
 
-        this.ClientSize = new Size(snapshot.Width, snapshot.Height);
+        /// <summary>
+        /// The snapshot that will be displayed (full-size) within this dialog.
+        /// </summary>
+        public Image Snapshot
+        {
+            get => snapshot;
+            set
+            {
+                snapshot = value;
 
-        this.pictureBoxPreview.Image = snapshot;
-      } 
+                ClientSize = new Size(snapshot.Width, snapshot.Height);
+
+                pictureBoxPreview.Image = snapshot;
+            }
+        }
+
+
+        public DialogPreviewSnapshot()
+        {
+            InitializeComponent();
+        }
+
+        private void pictureBoxPreview_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
-
-
-    public DialogPreviewSnapshot()
-    {
-      InitializeComponent();
-    }
-
-    private void pictureBoxPreview_Click(object sender, EventArgs e)
-    {
-      this.Close();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-  }
 }

@@ -18,101 +18,83 @@
 //////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace subs2srs
 {
-  public partial class GroupBoxCheck : GroupBox
-  {
-    private bool firstTime = true;
-
-
-    // Text Property
-    [
-      Browsable(true),
-      EditorBrowsable(EditorBrowsableState.Always),
-      Description("The text to display next to the checkbox."),
-      Category("Appearance")
-    ]
-    public override string Text
+    public partial class GroupBoxCheck : GroupBox
     {
-      get
-      {
-        return this.checkBox1.Text;
-      }
-
-      set
-      {
-        this.checkBox1.Text = value;
-        Invalidate();
-      }
-    }
-
-    // Checked Property
-    [
-      Browsable(true),
-      EditorBrowsable(EditorBrowsableState.Always),
-      Description("Checked state."),
-      Category("Appearance")
-    ]
-    public bool Checked
-    {
-      get
-      {
-        return this.checkBox1.Checked;
-      }
-
-      set
-      {
-        this.checkBox1.Checked = value;
-      }
-    }
+        private bool firstTime = true;
 
 
-    public GroupBoxCheck()
-    {
-      InitializeComponent();
-    }
-
-
-    /// <summary>
-    /// Enable or Disable all child controls.
-    /// </summary>
-    private void setEnableForAllChildControls(bool state)
-    {
-      foreach (Control ctrl in this.Controls)
-      {
-        if (ctrl != this.checkBox1)
+        // Text Property
+        [
+            Browsable(true),
+            EditorBrowsable(EditorBrowsableState.Always),
+            Description("The text to display next to the checkbox."),
+            Category("Appearance")
+        ]
+        public override string Text
         {
-          ctrl.Enabled = state;
+            get => checkBox1.Text;
+
+            set
+            {
+                checkBox1.Text = value;
+                Invalidate();
+            }
         }
-      }
+
+        // Checked Property
+        [
+            Browsable(true),
+            EditorBrowsable(EditorBrowsableState.Always),
+            Description("Checked state."),
+            Category("Appearance")
+        ]
+        public bool Checked
+        {
+            get => checkBox1.Checked;
+
+            set => checkBox1.Checked = value;
+        }
+
+
+        public GroupBoxCheck()
+        {
+            InitializeComponent();
+        }
+
+
+        /// <summary>
+        /// Enable or Disable all child controls.
+        /// </summary>
+        private void setEnableForAllChildControls(bool state)
+        {
+            foreach (Control ctrl in Controls)
+            {
+                if (ctrl != checkBox1)
+                {
+                    ctrl.Enabled = state;
+                }
+            }
+        }
+
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            setEnableForAllChildControls(checkBox1.Checked);
+        }
+
+
+        private void GroupBoxCheck_Paint(object sender, PaintEventArgs e)
+        {
+            if (firstTime)
+            {
+                setEnableForAllChildControls(checkBox1.Checked);
+                firstTime = false;
+            }
+        }
     }
-
-
-    private void checkBox1_CheckedChanged(object sender, EventArgs e)
-    {
-      setEnableForAllChildControls(this.checkBox1.Checked);
-    }
-
-
-    private void GroupBoxCheck_Paint(object sender, PaintEventArgs e)
-    {
-      if(firstTime)
-      {
-        setEnableForAllChildControls(this.checkBox1.Checked);
-        firstTime = false;
-      }
-    }
-
-
-
-
-  }
 }

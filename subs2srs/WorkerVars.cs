@@ -17,66 +17,45 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace subs2srs
 {
-  /// <summary>
-  /// Object passed to the main worker thread.
-  /// </summary>
-  public class WorkerVars
-  {
-    public enum SubsProcessingType
-    {
-      Normal,
-      Preview,
-      Dueling
-    };
-
-    private List<List<InfoCombined>> combinedAll;
-    private string mediaDir;
-    private SubsProcessingType processingType;
-
-
     /// <summary>
-    /// Combined lines for all episodes.
+    /// Object passed to the main worker thread.
     /// </summary>
-    public List<List<InfoCombined>> CombinedAll
+    public class WorkerVars
     {
-      get { return combinedAll; }
-      set { combinedAll = value; }
+        public enum SubsProcessingType
+        {
+            Normal,
+            Preview,
+            Dueling
+        };
+
+
+        /// <summary>
+        /// Combined lines for all episodes.
+        /// </summary>
+        public List<List<InfoCombined>> CombinedAll { get; set; }
+
+
+        /// <summary>
+        /// The media directory.
+        /// </summary>
+        public string MediaDir { get; set; }
+
+        /// <summary>
+        /// The type of processing.
+        /// </summary>
+        public SubsProcessingType ProcessingType { get; set; }
+
+
+        public WorkerVars(List<List<InfoCombined>> combinedAll, string mediaDir, SubsProcessingType processingType)
+        {
+            CombinedAll = combinedAll;
+            MediaDir = mediaDir;
+            ProcessingType = processingType;
+        }
     }
-
-
-    /// <summary>
-    /// The media directory.
-    /// </summary>
-    public string MediaDir
-    {
-      get { return mediaDir; }
-      set { mediaDir = value; }
-    }
-
-    /// <summary>
-    /// The type of processing.
-    /// </summary>
-    public SubsProcessingType ProcessingType
-    {
-      get { return processingType; }
-      set { processingType = value; }
-    }
-
-
-    public WorkerVars(List<List<InfoCombined>> combinedAll, string mediaDir, SubsProcessingType processingType)
-    {
-      this.combinedAll = combinedAll;
-      this.mediaDir = mediaDir;
-      this.processingType = processingType;
-    }
-
-
-  }
 }

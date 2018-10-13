@@ -18,100 +18,96 @@
 //////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace subs2srs
 {
-  /// <summary>
-  /// Represents a single subtitle line.
-  /// </summary>
-  [Serializable]
-  public class InfoLine : IComparable<InfoLine>
-  {
-    private DateTime startTime;
-    private DateTime endTime;
-    private string text;
-    private string actor;
-
-
     /// <summary>
-    /// The start time of the line.
+    /// Represents a single subtitle line.
     /// </summary>
-    public DateTime StartTime
+    [Serializable]
+    public class InfoLine : IComparable<InfoLine>
     {
-      get { return startTime; }
-      set { startTime = value; }
+        private DateTime startTime;
+        private DateTime endTime;
+        private string text;
+        private string actor;
+
+
+        /// <summary>
+        /// The start time of the line.
+        /// </summary>
+        public DateTime StartTime
+        {
+            get => startTime;
+            set => startTime = value;
+        }
+
+        /// <summary>
+        /// The end time of the line.
+        /// </summary>
+        public DateTime EndTime
+        {
+            get => endTime;
+            set => endTime = value;
+        }
+
+        /// <summary>
+        /// The actual subtitle text. For Vobsubs, it's the file name of the extracted image file for this line.
+        /// </summary>
+        public string Text
+        {
+            get => text;
+            set => text = value;
+        }
+
+        /// <summary>
+        /// Actor is a field unique to .ass subtitles.
+        /// </summary>
+        public string Actor
+        {
+            get => actor;
+            set => actor = value;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public InfoLine()
+        {
+            startTime = new DateTime();
+            endTime = new DateTime();
+            text = "";
+            actor = "";
+        }
+
+        public InfoLine(DateTime startTime, DateTime endTime, string text)
+        {
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.text = text;
+            actor = "";
+        }
+
+        public InfoLine(DateTime startTime, DateTime endTime, string text, string actor)
+        {
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.text = text;
+            this.actor = actor;
+        }
+
+
+        /// <summary>
+        /// Compare lines based on their Start Times.
+        /// </summary>
+        public int CompareTo(InfoLine other)
+        {
+            return StartTime.CompareTo(other.StartTime);
+        }
+
+        public override string ToString()
+        {
+            return text + " " + UtilsSubs.timeToString(startTime) + ", " + UtilsSubs.timeToString(endTime);
+        }
     }
-
-    /// <summary>
-    /// The end time of the line.
-    /// </summary>
-    public DateTime EndTime
-    {
-      get { return endTime; }
-      set { endTime = value; }
-    }
-
-    /// <summary>
-    /// The actual subtitle text. For Vobsubs, it's the file name of the extracted image file for this line.
-    /// </summary>
-    public string Text
-    {
-      get { return text; }
-      set { text = value; }
-    }
-
-    /// <summary>
-    /// Actor is a field unique to .ass subtitles.
-    /// </summary>
-    public string Actor
-    {
-      get { return actor; }
-      set { actor = value; }
-    }
-
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    public InfoLine()
-    {
-      this.startTime = new DateTime();
-      this.endTime = new DateTime();
-      this.text = "";
-      this.actor = "";
-    }
-
-    public InfoLine(DateTime startTime, DateTime endTime, string text)
-    {
-      this.startTime = startTime;
-      this.endTime = endTime;
-      this.text = text;
-      this.actor = "";
-    }
-
-    public InfoLine(DateTime startTime, DateTime endTime, string text, string actor)
-    {
-      this.startTime = startTime;
-      this.endTime = endTime;
-      this.text = text;
-      this.actor = actor;
-    }
-
-
-    /// <summary>
-    /// Compare lines based on their Start Times.
-    /// </summary>
-    public int CompareTo(InfoLine other)
-    {
-      return StartTime.CompareTo(other.StartTime);
-    }
-
-    public override string ToString()
-    {
-      return text + " " + UtilsSubs.timeToString(startTime) + ", " + UtilsSubs.timeToString(endTime);
-    }
-
-
-  }
 }

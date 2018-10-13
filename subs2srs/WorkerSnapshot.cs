@@ -19,90 +19,74 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace subs2srs
 {
-  /// <summary>
-  /// Responsible for processing snapshots in the worker thread.
-  /// </summary>
-  public class WorkerSnapshot
-  {
     /// <summary>
-    /// Generate snapshots for all episodes.
+    /// Responsible for processing snapshots in the worker thread.
     /// </summary>
-    public bool genSnapshots(WorkerVars workerVars, DialogProgress dialogProgress)
+    public class WorkerSnapshot
     {
-      int progessCount = 0;
-      int episodeCount = 0;
-      int totalEpisodes = workerVars.CombinedAll.Count;
-      int totalLines = UtilsSubs.getTotalLineCount(workerVars.CombinedAll);
-      DateTime lastTime = UtilsSubs.getLastTime(workerVars.CombinedAll);
-
-      UtilsName name = new UtilsName(Settings.Instance.DeckName, totalEpisodes,
-        totalLines, lastTime, Settings.Instance.VideoClips.Size.Width, Settings.Instance.VideoClips.Size.Height);
-
-      // For each episode
-      foreach (List<InfoCombined> combArray in workerVars.CombinedAll)
-      {
-        episodeCount++;
-
-        // For each line in episode, generate a snapshot
-        for (int i = 0; i < combArray.Count; i++)
+        /// <summary>
+        /// Generate snapshots for all episodes.
+        /// </summary>
+        public bool genSnapshots(WorkerVars workerVars, DialogProgress dialogProgress)
         {
-          progessCount++;
+            int progessCount = 0;
+            int episodeCount = 0;
+            int totalEpisodes = workerVars.CombinedAll.Count;
+            int totalLines = UtilsSubs.getTotalLineCount(workerVars.CombinedAll);
+            DateTime lastTime = UtilsSubs.getLastTime(workerVars.CombinedAll);
 
-          string progressText = string.Format("Generating snapshot: {0} of {1}",
-                                              progessCount.ToString(),
-                                              totalLines.ToString());
+            UtilsName name = new UtilsName(Settings.Instance.DeckName, totalEpisodes,
+                totalLines, lastTime, Settings.Instance.VideoClips.Size.Width,
+                Settings.Instance.VideoClips.Size.Height);
 
-          int progress = Convert.ToInt32(progessCount * (100.0 / totalLines));
+            // For each episode
+            foreach (List<InfoCombined> combArray in workerVars.CombinedAll)
+            {
+                episodeCount++;
 
-          // Update the progress dialog
-          DialogProgress.updateProgressInvoke(dialogProgress, progress, progressText);
+                // For each line in episode, generate a snapshot
+                foreach (InfoCombined t in combArray)
+                {
+                    progessCount++;
 
-          InfoCombined comb = combArray[i];
-          DateTime startTime = comb.Subs1.StartTime;
-          DateTime endTime = comb.Subs1.EndTime;
-          DateTime midTime = UtilsSubs.getMidpointTime(startTime, endTime);
+                    string progressText = $"Generating snapshot: {progessCount.ToString()} of {totalLines.ToString()}";
 
-          string videoFileName = Settings.Instance.VideoClips.Files[episodeCount - 1];
+                    int progress = Convert.ToInt32(progessCount * (100.0 / totalLines));
 
-          // Create output filename
-          string nameStr = name.createName(ConstantSettings.SnapshotFilenameFormat, 
-            (int)episodeCount + Settings.Instance.EpisodeStartNumber - 1,
-            progessCount, startTime, endTime, comb.Subs1.Text, comb.Subs2.Text);
+                    // Update the progress dialog
+                    DialogProgress.updateProgressInvoke(dialogProgress, progress, progressText);
 
-          string outFile = string.Format("{0}{1}{2}",
-                                          workerVars.MediaDir,          // {0}
-                                          Path.DirectorySeparatorChar,  // {1}
-                                          nameStr);                     // {2}
+                    InfoCombined comb = t;
+                    DateTime startTime = comb.Subs1.StartTime;
+                    DateTime endTime = comb.Subs1.EndTime;
+                    DateTime midTime = UtilsSubs.getMidpointTime(startTime, endTime);
 
-          // Generate snapshot
-          UtilsSnapshot.takeSnapshotFromVideo(videoFileName, midTime, Settings.Instance.Snapshots.Size,
-            Settings.Instance.Snapshots.Crop, outFile);
+                    string videoFileName = Settings.Instance.VideoClips.Files[episodeCount - 1];
 
-          // Did the user press the cancel button?
-          if (dialogProgress.Cancel)
-          {
-            return false;
-          }                                                               
+                    // Create output filename
+                    string nameStr = name.createName(ConstantSettings.SnapshotFilenameFormat,
+                        (int) episodeCount + Settings.Instance.EpisodeStartNumber - 1,
+                        progessCount, startTime, endTime, comb.Subs1.Text, comb.Subs2.Text);
+
+                    string outFile = $"{workerVars.MediaDir}{Path.DirectorySeparatorChar}{nameStr}"; // {2}
+
+                    // Generate snapshot
+                    UtilsSnapshot.takeSnapshotFromVideo(videoFileName, midTime, Settings.Instance.Snapshots.Size,
+                        Settings.Instance.Snapshots.Crop, outFile);
+
+                    // Did the user press the cancel button?
+                    if (dialogProgress.Cancel)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
-      }
-
-      return true;
     }
-
-
-
-  }
 }

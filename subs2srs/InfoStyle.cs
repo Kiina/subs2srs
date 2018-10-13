@@ -17,235 +17,109 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace subs2srs
 {
-
-  /// <summary>
-  /// Represents a .ass subtitle style.
-  /// </summary>
-  public class InfoStyle
-  {
-    private Font font = new Font(new FontFamily("Arial"), 20, FontStyle.Regular);
-
-    private Color colorPrimary = System.Drawing.Color.White;
-    private Color colorSecondary = System.Drawing.Color.Red;
-    private Color colorOutline = System.Drawing.Color.Black;
-    private Color colorShadow = System.Drawing.Color.Black;
-    private int opacityPrimary = 0;
-    private int opacitySecondary = 0;
-    private int opacityOutline = 0;
-    private int opacityShadow = 0;
-
-    private int outline = 2;
-    private int shadow = 2;
-    private bool opaqueBox = false;
-
-    private int alignment = 2;
-
-    private int marginLeft = 10;
-    private int marginRight = 10;
-    private int marginVertical = 10;
-
-    private int scaleX = 100;
-    private int scaleY = 100;
-    private int rotation = 0;
-    private int spacing = 0;
-    private StyleEncoding encoding = new StyleEncoding(1, "Default");
-
-
-    public Font Font
+    /// <summary>
+    /// Represents a .ass subtitle style.
+    /// </summary>
+    public class InfoStyle
     {
-      get { return font; }
-      set { font = value; }
-    }
+        public Font Font { get; set; } = new Font(new FontFamily("Arial"), 20, FontStyle.Regular);
 
-    public Color ColorPrimary
-    {
-      get { return colorPrimary; }
-      set { colorPrimary = value; }
-    }
+        public Color ColorPrimary { get; set; } = Color.White;
 
-    public Color ColorSecondary
-    {
-      get { return colorSecondary; }
-      set { colorSecondary = value; }
-    }
+        public Color ColorSecondary { get; set; } = Color.Red;
 
-    public Color ColorOutline
-    {
-      get { return colorOutline; }
-      set { colorOutline = value; }
-    }
+        public Color ColorOutline { get; set; } = Color.Black;
 
-    public Color ColorShadow
-    {
-      get { return colorShadow; }
-      set { colorShadow = value; }
-    }
+        public Color ColorShadow { get; set; } = Color.Black;
 
-    public int OpacityPrimary
-    {
-      get { return opacityPrimary; }
-      set { opacityPrimary = value; }
-    }
+        public int OpacityPrimary { get; set; } = 0;
 
-    public int OpacitySecondary
-    {
-      get { return opacitySecondary; }
-      set { opacitySecondary = value; }
-    }
+        public int OpacitySecondary { get; set; } = 0;
 
-    public int OpacityOutline
-    {
-      get { return opacityOutline; }
-      set { opacityOutline = value; }
-    }
+        public int OpacityOutline { get; set; } = 0;
 
-    public int OpacityShadow
-    {
-      get { return opacityShadow; }
-      set { opacityShadow = value; }
-    }
+        public int OpacityShadow { get; set; } = 0;
 
-    public int Outline
-    {
-      get { return outline; }
-      set { outline = value; }
-    }
+        public int Outline { get; set; } = 2;
 
-    public int Shadow
-    {
-      get { return shadow; }
-      set { shadow = value; }
-    }
+        public int Shadow { get; set; } = 2;
 
-    public bool OpaqueBox
-    {
-      get { return opaqueBox; }
-      set { opaqueBox = value; }
-    }
+        public bool OpaqueBox { get; set; } = false;
 
-    public int Alignment
-    {
-      get { return alignment; }
-      set { alignment = value; }
-    }
+        public int Alignment { get; set; } = 2;
 
-    public int MarginLeft
-    {
-      get { return marginLeft; }
-      set { marginLeft = value; }
-    }
+        public int MarginLeft { get; set; } = 10;
 
-    public int MarginRight
-    {
-      get { return marginRight; }
-      set { marginRight = value; }
-    }
+        public int MarginRight { get; set; } = 10;
 
-    public int MarginVertical
-    {
-      get { return marginVertical; }
-      set { marginVertical = value; }
-    }
+        public int MarginVertical { get; set; } = 10;
 
-    public int ScaleX
-    {
-      get { return scaleX; }
-      set { scaleX = value; }
-    }
+        public int ScaleX { get; set; } = 100;
 
-    public int ScaleY
-    {
-      get { return scaleY; }
-      set { scaleY = value; }
-    }
+        public int ScaleY { get; set; } = 100;
 
-    public int Rotation
-    {
-      get { return rotation; }
-      set { rotation = value; }
-    }
+        public int Rotation { get; set; } = 0;
 
-    public int Spacing
-    {
-      get { return spacing; }
-      set { spacing = value; }
-    }
+        public int Spacing { get; set; } = 0;
 
-    public StyleEncoding Encoding
-    {
-      get { return encoding; }
-      set { encoding = value; }
+        public StyleEncoding Encoding { get; set; } = new StyleEncoding(1, "Default");
+
+
+        public InfoStyle()
+        {
+        }
     }
 
 
-    public InfoStyle()
+    public class StyleEncoding
     {
+        public int Num { get; set; }
 
+        public string Text { get; set; }
+
+        public StyleEncoding(int num, string text)
+        {
+            Num = num;
+            Text = text;
+        }
+
+        public static List<StyleEncoding> getDefaultList()
+        {
+            List<StyleEncoding> defaultList = new List<StyleEncoding>
+            {
+                new StyleEncoding(0, "ANSI"),
+                new StyleEncoding(1, "Default"),
+                new StyleEncoding(2, "Symbol"),
+                new StyleEncoding(77, "Mac"),
+                new StyleEncoding(128, "Shift_JIS"),
+                new StyleEncoding(129, "Hangeul"),
+                new StyleEncoding(130, "Johab"),
+                new StyleEncoding(134, "GB2312"),
+                new StyleEncoding(136, "Chinese BIG5"),
+                new StyleEncoding(161, "Greek"),
+                new StyleEncoding(162, "Turkish"),
+                new StyleEncoding(163, "Vietnamese"),
+                new StyleEncoding(177, "Hebrew"),
+                new StyleEncoding(178, "Arabic"),
+                new StyleEncoding(186, "Baltic"),
+                new StyleEncoding(204, "Russian"),
+                new StyleEncoding(222, "Thai"),
+                new StyleEncoding(238, "East European"),
+                new StyleEncoding(255, "OEM")
+            };
+
+
+            return defaultList;
+        }
+
+        public override string ToString()
+        {
+            return Num.ToString() + " - " + Text;
+        }
     }
-  }
-
-
-  public class StyleEncoding
-  {
-    private int num;
-    private string text;
-
-    public int Num
-    {
-      get { return num; }
-      set { num = value; }
-    }
-
-    public string Text
-    {
-      get { return text; }
-      set { text = value; }
-    }
-
-    public StyleEncoding(int num, string text)
-    {
-      this.num = num;
-      this.text = text;
-    }
-
-    public static List<StyleEncoding> getDefaultList()
-    {
-      List<StyleEncoding> defaultList = new List<StyleEncoding>();
-
-      defaultList.Add(new StyleEncoding(0, "ANSI"));
-      defaultList.Add(new StyleEncoding(1, "Default"));
-      defaultList.Add(new StyleEncoding(2, "Symbol"));
-      defaultList.Add(new StyleEncoding(77, "Mac"));
-      defaultList.Add(new StyleEncoding(128, "Shift_JIS"));
-      defaultList.Add(new StyleEncoding(129, "Hangeul"));
-      defaultList.Add(new StyleEncoding(130, "Johab"));
-      defaultList.Add(new StyleEncoding(134, "GB2312"));
-      defaultList.Add(new StyleEncoding(136, "Chinese BIG5"));
-      defaultList.Add(new StyleEncoding(161, "Greek"));
-      defaultList.Add(new StyleEncoding(162, "Turkish"));
-      defaultList.Add(new StyleEncoding(163, "Vietnamese"));
-      defaultList.Add(new StyleEncoding(177, "Hebrew"));
-      defaultList.Add(new StyleEncoding(178, "Arabic"));
-      defaultList.Add(new StyleEncoding(186, "Baltic"));
-      defaultList.Add(new StyleEncoding(204, "Russian"));
-      defaultList.Add(new StyleEncoding(222, "Thai"));
-      defaultList.Add(new StyleEncoding(238, "East European"));
-      defaultList.Add(new StyleEncoding(255, "OEM"));
-
-      return defaultList;
-    }
-
-    public override string ToString()
-    {
-      return num.ToString() + " - " + text;
-    }
-  }
 }

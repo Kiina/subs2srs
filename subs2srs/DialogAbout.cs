@@ -18,44 +18,33 @@
 //////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace subs2srs
 {
-  /// <summary>
-  /// The about dialog.
-  /// </summary>
-  partial class DialogAbout : Form
-  {
-    public DialogAbout()
+    /// <summary>
+    /// The about dialog.
+    /// </summary>
+    partial class DialogAbout : Form
     {
-      InitializeComponent();
-      this.Text = string.Format("About {0}", UtilsAssembly.Title);
-      this.labelProjectName.Text = UtilsAssembly.Product;
-      this.labelVersion.Text = UtilsAssembly.Version;
-      this.labelAuthor.Text = UtilsAssembly.Author;
-      this.linkLabelWebsite.Text = String.Format("http://sourceforge.net/projects/{0}/", UtilsAssembly.Title);
+        public DialogAbout()
+        {
+            InitializeComponent();
+            Text = $"About {UtilsAssembly.Title}";
+            labelProjectName.Text = UtilsAssembly.Product;
+            labelVersion.Text = UtilsAssembly.Version;
+            labelAuthor.Text = UtilsAssembly.Author;
+            linkLabelWebsite.Text = $"http://sourceforge.net/projects/{UtilsAssembly.Title}/";
+        }
+
+        private void linkLabelContact_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("Mailto:cb4960@gmail.com");
+        }
+
+        private void linkLabelWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start($"http://sourceforge.net/projects/{UtilsAssembly.Title}/");
+        }
     }
-
-    private void linkLabelContact_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-    {
-      System.Diagnostics.Process.Start("Mailto:cb4960@gmail.com");
-
-    }
-
-    private void linkLabelWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-    {
-      System.Diagnostics.Process.Start(String.Format("http://sourceforge.net/projects/{0}/", UtilsAssembly.Title));
-    }
-
-
-
-
-
-  }
 }

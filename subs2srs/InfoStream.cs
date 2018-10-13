@@ -18,106 +18,95 @@
 //////////////////////////////////////////////////////////////////////////////
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace subs2srs
 {
-  /// <summary>
-  /// Represents an audio or vobsub stream.
-  /// </summary>
-  [Serializable]
-  public class InfoStream
-  {
-    private string num;
-    private string displayNum;
-    private string lang;
-    private string type;
-
     /// <summary>
-    /// The index of the stream.
-    /// For audio, this is the actual stream number according to FFmpeg.
+    /// Represents an audio or vobsub stream.
     /// </summary>
-    public string Num 
+    [Serializable]
+    public class InfoStream
     {
-      get { return num; }
-      set { num = value; } 
-    }
+        private string num;
+        private string displayNum;
+        private string lang;
+        private string type;
 
-
-    /// <summary>
-    /// The stream number to actual display.
-    /// </summary>
-    public string DisplayNum
-    {
-      get { return displayNum; }
-      set { displayNum = value; } 
-    }
-
-
-    /// <summary>
-    /// The language of the stream.
-    /// </summary>
-    public string Lang
-    {
-      get { return lang; }
-      set { lang = value; } 
-    }
-
-
-    /// <summary>
-    /// Type of stream. Put anything here. Not used.
-    /// For audio stream, the raw FFmpeg information can be used.
-    /// </summary>
-    public string Type
-    {
-      get { return type; }
-      set { type = value; }
-    }
-
-
-    public InfoStream()
-    {
-      this.num = "-";
-      this.displayNum = "-";
-      this.lang = "-";
-      this.type = "-";
-    }
-
-    public InfoStream(string num, string displayNum, string lang, string type)
-    {
-      this.num = num;
-      this.displayNum = displayNum;
-      this.lang = lang;
-      this.type = type;
-    }
-
-
-    public override string ToString()
-    {
-      string ret = "(Default)";
-      string displayLang = lang;
-
-      if (num != "-")
-      {
-        if (lang.Trim() == "")
+        /// <summary>
+        /// The index of the stream.
+        /// For audio, this is the actual stream number according to FFmpeg.
+        /// </summary>
+        public string Num
         {
-          displayLang = "???";
+            get => num;
+            set => num = value;
         }
 
-        ret = displayNum + " - (" + displayLang + ")";
-      }
 
-      return ret;
+        /// <summary>
+        /// The stream number to actual display.
+        /// </summary>
+        public string DisplayNum
+        {
+            get => displayNum;
+            set => displayNum = value;
+        }
+
+
+        /// <summary>
+        /// The language of the stream.
+        /// </summary>
+        public string Lang
+        {
+            get => lang;
+            set => lang = value;
+        }
+
+
+        /// <summary>
+        /// Type of stream. Put anything here. Not used.
+        /// For audio stream, the raw FFmpeg information can be used.
+        /// </summary>
+        public string Type
+        {
+            get => type;
+            set => type = value;
+        }
+
+
+        public InfoStream()
+        {
+            num = "-";
+            displayNum = "-";
+            lang = "-";
+            type = "-";
+        }
+
+        public InfoStream(string num, string displayNum, string lang, string type)
+        {
+            this.num = num;
+            this.displayNum = displayNum;
+            this.lang = lang;
+            this.type = type;
+        }
+
+
+        public override string ToString()
+        {
+            string ret = "(Default)";
+            string displayLang = lang;
+
+            if (num != "-")
+            {
+                if (lang.Trim() == "")
+                {
+                    displayLang = "???";
+                }
+
+                ret = displayNum + " - (" + displayLang + ")";
+            }
+
+            return ret;
+        }
     }
-
-
-
-
-
-
-
-
-  }
 }

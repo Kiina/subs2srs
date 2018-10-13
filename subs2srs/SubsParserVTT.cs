@@ -1,4 +1,4 @@
-﻿//  Copyright (C) 2009-2016 Christopher Brochtrup
+﻿//  Copyright (C) 2009-2018 Christopher Brochtrup
 //
 //  This file is part of subs2srs.
 //
@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Text;
@@ -26,26 +27,25 @@ using System.Text;
 namespace subs2srs
 {
     /// <summary>
-    /// Parser for Subrip (.srt) files.
+    /// Parser for Subrip (.vtt) files.
     /// </summary>
-    class SubsParserSRT : SubsParser
+    class SubsParserVTT : SubsParser
     {
         /// <summary>
         /// States of the parser's state machine.
         /// </summary>
         private enum ParseStep
         {
-            LineNum = 0,
+            LineNum = 2,
             Time,
             Text
         }
 
-        public SubsParserSRT(string file, Encoding subsEncoding)
+        public SubsParserVTT(string file, Encoding subsEncoding)
         {
             File = file;
             SubsEncoding = subsEncoding;
         }
-
 
         /// <summary>
         /// Parse the subtitle file and return a list of lines.
@@ -56,7 +56,6 @@ namespace subs2srs
             StreamReader subFile = new StreamReader(File, SubsEncoding);
             string rawLine;
             ParseStep parseStep = ParseStep.LineNum;
-            Match match;
             string rawStartTime = "";
             string rawEndTime = "";
             string lineText = "";
@@ -64,6 +63,7 @@ namespace subs2srs
             // Fill in lineInfos
             while ((rawLine = subFile.ReadLine()) != null)
             {
+                Match match;
                 switch (parseStep)
                 {
                     case ParseStep.LineNum:
@@ -148,23 +148,24 @@ namespace subs2srs
 
 
         /// <summary>
-        /// Parse a .srt formmated timestamp.
+        /// Parse a .vtt formated timestamp.
         /// </summary>
         private DateTime parseTime(string rawTime)
         {
             DateTime time = new DateTime();
 
             // Format: 
-            // "hour:min:sec,msec" (00:00:00,000)
+            // "hour:min:sec.msec" (00:00:00.000)
 
             Match match = Regex.Match(rawTime,
-                @"^(?<Hours>\d\d):(?<Mins>\d\d):(?<Secs>\d\d),(?<MSecs>\d\d\d)$",
+                @"^(?<Hours>\d\d):(?<Mins>\d\d):(?<Secs>\d\d)\.(?<MSecs>\d\d\d)$",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+            Debug.Write(match);
 
             if (!match.Success)
             {
-                throw new Exception("Incorrect time format detected: " + rawTime
-                                                                       + "\nTo Fix:\n Open the subtitle file with Aegisub and select File | Save Subtitles");
+                throw new Exception("Incorrect time format detected: " + rawTime + "\nTo Fix:\n Open the subtitle file with Aegisub and select File | Save Subtitles");
             }
 
             try

@@ -17,132 +17,62 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace subs2srs
 {
-  /// <summary>
-  /// Represents a subtitle parser.
-  /// </summary>
-  abstract class SubsParser
-  {
-
-    public enum Type
+    /// <summary>
+    /// Represents a subtitle parser.
+    /// </summary>
+    abstract class SubsParser
     {
-      Ass = 0,     // .ass/.ssa
-      Srt,         // .srt
-      Vobsub,      // .sub/.idx
-      Lyrics,      // .lrc
-      Transcriber, // .trs
-      Unknown
+        public enum Type
+        {
+            Ass = 0, // .ass/.ssa
+            Srt, // .srt
+            Vobsub, // .sub/.idx
+            Lyrics, // .lrc
+            Transcriber, // .trs
+            Unknown
+        }
+
+
+        public WorkerVars WorkerVars { get; set; }
+
+
+        /// <summary>
+        /// The file to parse.
+        /// </summary>
+        public string File { get; set; }
+
+
+        /// <summary>
+        /// For Vobsubs, the index of the stream to parse.
+        /// </summary>
+        public int Stream { get; set; }
+
+
+        /// <summary>
+        /// The episode of the subtitle file.
+        /// </summary>
+        public int Episode { get; set; }
+
+
+        /// <summary>
+        /// 1 = Subs1, 2 = Subs2
+        /// </summary>
+        public int SubsNum { get; set; }
+
+        /// <summary>
+        /// The encoding of the subtitles file. Not used for Vobsub.
+        /// </summary>
+        public Encoding SubsEncoding { get; set; }
+
+
+        /// <summary>
+        /// Parse the subtitle file and return a list of lines.
+        /// </summary>
+        public abstract List<InfoLine> parse();
     }
-
-    private WorkerVars workerVars;
-    private string file;
-    private int stream;
-    private int episode;
-    private int subsNum;
-    private Encoding subsEncoding;
-
-
-    public WorkerVars WorkerVars 
-    { 
-      get
-      {
-        return workerVars;
-      }
-      set
-      {
-        workerVars = value;
-      }
-    }
-
-
-    /// <summary>
-    /// The file to parse.
-    /// </summary>
-    public string File 
-    { 
-      get
-      {
-        return file;
-      }
-      set
-      {
-        file = value;
-      }
-    }
-
-
-    /// <summary>
-    /// For Vobsubs, the index of the stream to parse.
-    /// </summary>
-    public int Stream
-    {
-      get
-      {
-        return stream;
-      }
-      set
-      {
-        stream = value;
-      }
-    }
-
-
-    /// <summary>
-    /// The episode of the subtitle file.
-    /// </summary>
-    public int Episode
-    {
-      get
-      {
-        return episode;
-      }
-      set
-      {
-        episode = value;
-      }
-    }
-
-
-    /// <summary>
-    /// 1 = Subs1, 2 = Subs2
-    /// </summary>
-    public int SubsNum
-    {
-      get
-      {
-        return subsNum;
-      }
-      set
-      {
-        subsNum = value;
-      }
-    }
-
-    /// <summary>
-    /// The encoding of the subtitles file. Not used for Vobsub.
-    /// </summary>
-    public Encoding SubsEncoding
-    {
-      get
-      {
-        return subsEncoding;
-      }
-      set
-      {
-        subsEncoding = value;
-      }
-    }
-
-
-    /// <summary>
-    /// Parse the subtitle file and return a list of lines.
-    /// </summary>
-    abstract public List<InfoLine> parse();
-    
-  }
 }

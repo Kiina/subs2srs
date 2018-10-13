@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("subs2srs")]
-[assembly: AssemblyDescription("subs2srs allows you to create import files for Anki or other Spaced Repetition Systems (SRS) based on your favorite foreign language movies and TV shows to aid in the language learning process.")]
+[assembly:
+    AssemblyDescription(
+        "subs2srs allows you to create import files for Anki or other Spaced Repetition Systems (SRS) based on your favorite foreign language movies and TV shows to aid in the language learning process.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Christopher Brochtrup")]
 [assembly: AssemblyProduct("subs2srs")]
